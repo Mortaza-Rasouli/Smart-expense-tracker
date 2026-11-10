@@ -9,31 +9,33 @@ export default function ExpenseItem({ expense, deleteExpense }) {
     Entertainment: "bg-purple-100 text-purple-700",
     Other: "bg-gray-200 text-gray-700",
   };
+
   return (
-    <>
-      <div className="flex justify-between  items-center w-230 h-16 bg-gray-100 border border-gray-300 rounded-xl px-5 group">
-        <div className="flex space-x-3">
-          <div className="flex items-center ">
-            <p
-              className={`text-[13px] font-semibold px-2 py-1 rounded-full ${categoryColor[expense.category]}`}
-            >
-              {expense.category}
-            </p>
-          </div>
-          <h1 className="font-semibold">{expense.title}</h1>
-        </div>
-
-        <div className="flex items-center space-x-4">
-          <p className="font-bold text-2xl text-black">${expense.amount}</p>
-
-          <button
-            onClick={() => deleteExpense(expense.id)}
-            className=" opacity-0 group-hover:opacity-100 transition-all duration-300 text-3xl mb-1 hover:text-red-600 font-bold flex items-center justify-center"
-          >
-            ×
-          </button>
-        </div>
+    <div className="group flex min-h-16 w-full items-center justify-between gap-3 rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 sm:px-5">
+      {/* Mobile: title on top, category chip below. sm and up: one row. */}
+      <div className="flex min-w-0 flex-col-reverse items-start gap-1 sm:flex-row sm:items-center sm:gap-3">
+        <p
+          className={`shrink-0 rounded-full px-2 py-1 text-[13px] font-semibold ${categoryColor[expense.category]}`}
+        >
+          {expense.category}
+        </p>
+        <h3 className="min-w-0 wrap-anywhere font-semibold">{expense.title}</h3>
       </div>
-    </>
+
+      <div className="flex shrink-0 items-center gap-2 sm:gap-4">
+        <p className="text-xl font-bold text-black sm:text-2xl">
+          ${expense.amount}
+        </p>
+
+        {/* Hidden until hover only on devices with a mouse; always visible on touch */}
+        <Button
+          onClick={() => deleteExpense(expense.id)}
+          className="flex h-9 w-9 items-center justify-center text-3xl font-bold transition-all duration-300 hover:text-red-600 focus-visible:opacity-100 pointer-fine:opacity-0 pointer-fine:group-hover:opacity-100"
+        >
+          <span aria-hidden="true">×</span>
+          <span className="sr-only">Delete expense</span>
+        </Button>
+      </div>
+    </div>
   );
 }

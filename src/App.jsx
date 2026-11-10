@@ -53,7 +53,7 @@ export default function App() {
 
   return (
     <>
-      <div className="space-y-6">
+      <div className="mx-auto w-full max-w-230 space-y-4 px-4 pb-8 sm:space-y-6 sm:px-6">
         <Header />
         <Statistics
           totalExpense={totalExpense}

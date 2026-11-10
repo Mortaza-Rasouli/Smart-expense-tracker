@@ -19,55 +19,50 @@ export default function FilterBar({
   ];
 
   return (
-    <>
-      <div className="w-230 h-20 bg-gray-100 border flex justify-center items-center space-x-15 border-gray-300 rounded-xl">
-        <div className="flex space-x-2">
-          {data.map((category) => (
-            <Button
-              key={category}
-              onClick={() => setFiltered(category)}
-              className={`${
-                category === filtered
-                  ? "px-3 py-1.5 rounded-xl text-white font-medium text-[13px] transition-all duration-300 bg-indigo-500 flex justify-center items-center outline-none"
-                  : "text-gray-800 font-medium text-[13px] px-3 py-1.5 rounded-xl bg-gray-200 outline-none"
-              }`}
-            >
-              {category}
-            </Button>
-          ))}
-        </div>
-
-        <div className="flex space-x-3">
-          <select
-            value={sorted}
-            onChange={(e) => setSorted(e.target.value)}
-            className="h-10 w-50 font-medium text-[13px] px-1 rounded-xl bg-gray-100 outline-none border border-gray-300 transition-all duration-300 hover:shadow-sm hover:shadow-indigo-300 hover:border-2 hover:border-indigo-300"
-          >
-            <option value="Newest">Sort: Newest</option>
-
-            <option value="high">Amount: High → Low</option>
-
-            <option value="low">Amount: Low → High</option>
-
-            <option value="az">Title: A → Z</option>
-
-            <option value="za">Title: Z → A</option>
-          </select>
-
+    <div className="flex w-full flex-col gap-4 rounded-xl border border-gray-300 bg-gray-100 p-4 lg:flex-row lg:items-center lg:justify-center lg:gap-10">
+      <div className="flex flex-wrap gap-2">
+        {data.map((category) => (
           <Button
-            onClick={() => {
-              const confirmDeleteAll = window.confirm(
-                "Are you sure want to clear all expense?",
-              );
-              if (confirmDeleteAll) clearAll();
-            }}
-            className="flex justify-center h-10 w-25 bg-gray-100 border border-gray-300 outline-none rounded-xl font-medium hover:bg-gray-200 hover:scale-105 transition-all duration-400 hover:text-red-600 items-center space-x-2"
+            key={category}
+            onClick={() => setFiltered(category)}
+            className={`rounded-xl px-3 py-2 text-[13px] font-medium outline-none transition-all duration-300 lg:py-1.5 ${
+              category === filtered
+                ? "bg-indigo-500 text-white"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+            }`}
           >
-            <RiDeleteBin5Line />
-            <p>Clear all</p>
+            {category}
           </Button>
-        </div>
+        ))}
       </div>
-    </>
+
+      <div className="flex gap-3">
+        <select
+          aria-label="Sort expenses"
+          value={sorted}
+          onChange={(e) => setSorted(e.target.value)}
+          className="h-11 min-w-0 flex-1 rounded-xl border border-gray-300 bg-gray-100 px-2 text-base font-medium outline-none transition-all duration-300 hover:border-2 hover:border-indigo-300 hover:shadow-sm hover:shadow-indigo-300 sm:text-[13px] lg:h-10 lg:w-50 lg:flex-none"
+        >
+          <option value="Newest">Sort: Newest</option>
+          <option value="high">Amount: High → Low</option>
+          <option value="low">Amount: Low → High</option>
+          <option value="az">Title: A → Z</option>
+          <option value="za">Title: Z → A</option>
+        </select>
+
+        <Button
+          onClick={() => {
+            const confirmDeleteAll = window.confirm(
+              "Are you sure want to clear all expense?",
+            );
+            if (confirmDeleteAll) clearAll();
+          }}
+          className="flex h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-gray-300 bg-gray-100 px-4 font-medium outline-none transition-all duration-400 hover:scale-105 hover:bg-gray-200 hover:text-red-600 lg:h-10 lg:w-25"
+        >
+          <RiDeleteBin5Line />
+          <span>Clear all</span>
+        </Button>
+      </div>
+    </div>
   );
 }

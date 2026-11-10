@@ -1,16 +1,20 @@
 import { useState } from "react";
 import Button from "./Button";
 
+// text-base on mobile (16px) stops iOS from zooming into the field on focus
+const fieldClass =
+  "h-11 w-full rounded-[10px] border border-gray-300 bg-gray-100 px-3 text-base outline-none transition-all duration-300 hover:border-2 hover:border-indigo-300 hover:shadow-sm hover:shadow-indigo-300 focus:border-indigo-400 sm:h-10 sm:text-[14px]";
+
 export default function ExpenseForm({
   addExpense,
   setTotalExpense,
   setTotalSpent,
   setHighestExpense,
-  
 }) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("Food");
+
   function handleSubmit(e) {
     e.preventDefault();
     if (title.trim() === "" || amount === "") {
@@ -34,59 +38,55 @@ export default function ExpenseForm({
     setHighestExpense((prev) =>
       Number(amount) > prev ? Number(amount) : prev,
     );
-  
   }
+
   return (
-    <>
-      <form
-        onSubmit={handleSubmit}
-        className="w-230 h-30 flex flex-col space-y-4 bg-gray-100 border border-gray-300 rounded-xl"
-      >
-        <h1 className="ml-6 mt-5 font-bold">Add expense</h1>
+    <form
+      onSubmit={handleSubmit}
+      className="flex w-full flex-col gap-4 rounded-xl border border-gray-300 bg-gray-100 p-4 sm:p-5"
+    >
+      <h2 className="font-bold">Add expense</h2>
 
-        <div className="space-x-3 mx-5">
-          <input
-            type="text"
-            placeholder="e.g. Coffee with friends"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-74 h-10 outline-none pl-3 text-[14px] transition-all duration-300 hover:shadow-sm hover:shadow-indigo-300 hover:border-indigo-300 hover:border-2 bg-gray-100 border border-gray-300 rounded-[10px]"
-          />
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_11rem_11rem_auto]">
+        <input
+          type="text"
+          aria-label="Expense title"
+          placeholder="e.g. Coffee with friends"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className={`${fieldClass} sm:col-span-2 lg:col-span-1`}
+        />
 
-          <input
-            type="number"
-            placeholder="Amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="w-58 h-10 outline-none px-3 text-[14px] transition-all duration-300 hover:shadow-sm hover:shadow-indigo-300 hover:border-indigo-300 hover:border-2 bg-gray-100 border border-gray-300 rounded-[10px]"
-          />
+        <input
+          type="number"
+          aria-label="Amount"
+          placeholder="Amount"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          className={fieldClass}
+        />
 
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-58 h-10 outline-none px-3 text-[14px] transition-all duration-300 hover:shadow-sm hover:shadow-indigo-300 hover:border-indigo-300 hover:border-2 bg-gray-100 border border-gray-300 rounded-[10px]"
-          >
-            <option value="Food">Food</option>
+        <select
+          aria-label="Category"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className={fieldClass}
+        >
+          <option value="Food">Food</option>
+          <option value="Transport">Transport</option>
+          <option value="Shopping">Shopping</option>
+          <option value="Bills">Bills</option>
+          <option value="Entertainment">Entertainment</option>
+          <option value="Other">Other</option>
+        </select>
 
-            <option value="Transport">Transport</option>
-
-            <option value="Shopping">Shopping</option>
-
-            <option value="Bills">Bills</option>
-
-            <option value="Entertainment">Entertainment</option>
-
-            <option value="Other">Other</option>
-          </select>
-
-          <Button
-            type="submit"
-            className="h-10 w-20 bg-indigo-500 transition-all duration-400 hover:bg-indigo-600 rounded-xl hover:scale-103 text-white font-semibold"
-          >
-            + Add
-          </Button>
-        </div>
-      </form>
-    </>
+        <Button
+          type="submit"
+          className="h-11 w-full rounded-xl bg-indigo-500 font-semibold text-white transition-all duration-400 hover:scale-103 hover:bg-indigo-600 sm:col-span-2 sm:h-10 lg:col-span-1 lg:w-20"
+        >
+          + Add
+        </Button>
+      </div>
+    </form>
   );
 }
